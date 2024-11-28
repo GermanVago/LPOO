@@ -1,64 +1,129 @@
-import java.util.Scanner;
-
-class Persona {
-    String nombre;
-    int edad;
-    String direccion;
-
-    Persona(String nombre, int edad, String direccion) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.direccion = direccion;
-    }
-}
-
-class Alumno extends Persona {
-    String matricula;
-    String carrera;
-
-    Alumno(String nombre, int edad, String direccion, String matricula, String carrera) {
-        super(nombre, edad, direccion);
-        this.matricula = matricula;
-        this.carrera = carrera;
-    }
-
-    void mostrarDatos() {
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Edad: " + edad);
-        System.out.println("Dirección: " + direccion);
-        System.out.println("Matrícula: " + matricula);
-        System.out.println("Carrera: " + carrera);
-        System.out.println();
-    }
-}
-
 public class Main {
+    // Clase Padre: Vehículo
+    static class Vehículo {
+        // Atributos
+        private String marca;
+        private String modelo;
+        private int capacidad;
+        private String color;
+
+        // Constructor
+        public Vehículo(String marca, String modelo, int capacidad, String color) {
+            this.marca = marca;
+            this.modelo = modelo;
+            this.capacidad = capacidad;
+            this.color = color;
+        }
+
+        // Getters y Setters
+        public String getMarca() {
+            return marca;
+        }
+
+        public void setMarca(String marca) {
+            this.marca = marca;
+        }
+
+        public String getModelo() {
+            return modelo;
+        }
+
+        public void setModelo(String modelo) {
+            this.modelo = modelo;
+        }
+
+        public int getCapacidad() {
+            return capacidad;
+        }
+
+        public void setCapacidad(int capacidad) {
+            this.capacidad = capacidad;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        // Métodos
+        public void acelerar() {
+            System.out.println("El vehículo está acelerando.");
+        }
+
+        public void frenar() {
+            System.out.println("El vehículo está frenando.");
+        }
+    }
+
+    // Clase Hija: Autobús
+    static class Autobús extends Vehículo {
+        // Atributos adicionales
+        private String tipoRutas;
+        private int numPasajerosActuales;
+
+        // Constructor
+        public Autobús(String marca, String modelo, int capacidad, String color, String tipoRutas, int numPasajerosActuales) {
+            super(marca, modelo, capacidad, color);
+            this.tipoRutas = tipoRutas;
+            this.numPasajerosActuales = numPasajerosActuales;
+        }
+
+        // Getters y Setters
+        public String getTipoRutas() {
+            return tipoRutas;
+        }
+
+        public void setTipoRutas(String tipoRutas) {
+            this.tipoRutas = tipoRutas;
+        }
+
+        public int getNumPasajerosActuales() {
+            return numPasajerosActuales;
+        }
+
+        public void setNumPasajerosActuales(int numPasajerosActuales) {
+            this.numPasajerosActuales = numPasajerosActuales;
+        }
+
+        // Métodos adicionales
+        public void subirPasajeros(int cantidad) {
+            numPasajerosActuales += cantidad;
+            System.out.println(cantidad + " pasajeros subieron. Total: " + numPasajerosActuales);
+        }
+
+        public void bajarPasajeros(int cantidad) {
+            if (cantidad <= numPasajerosActuales) {
+                numPasajerosActuales -= cantidad;
+                System.out.println(cantidad + " pasajeros bajaron. Total: " + numPasajerosActuales);
+            } else {
+                System.out.println("No hay suficientes pasajeros para bajar.");
+            }
+        }
+    }
+
+    // Método principal para probar las clases
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Alumno[] alumnos = new Alumno[2];
+        // Crear un objeto de la clase Autobús
+        Autobús miAutobús = new Autobús("Mercedes-Benz", "Sprinter", 30, "Blanco", "Urbano", 10);
 
-        for (int i = 0; i < 2; i++) {
-            System.out.println("Captura de datos del alumno " + (i + 1) + ":");
-            System.out.print("Nombre: ");
-            String nombre = scanner.nextLine();
-            System.out.print("Edad: ");
-            int edad = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el buffer
-            System.out.print("Dirección: ");
-            String direccion = scanner.nextLine();
-            System.out.print("Matrícula: ");
-            String matricula = scanner.nextLine();
-            System.out.print("Carrera: ");
-            String carrera = scanner.nextLine();
+        // Asignar y leer atributos
+        System.out.println("Marca: " + miAutobús.getMarca());
+        System.out.println("Modelo: " + miAutobús.getModelo());
+        System.out.println("Capacidad: " + miAutobús.getCapacidad());
+        System.out.println("Color: " + miAutobús.getColor());
+        System.out.println("Tipo de rutas: " + miAutobús.getTipoRutas());
+        System.out.println("Número de pasajeros actuales: " + miAutobús.getNumPasajerosActuales());
 
-            alumnos[i] = new Alumno(nombre, edad, direccion, matricula, carrera);
-        }
+        // Métodos de la clase padre
+        miAutobús.acelerar();
+        miAutobús.frenar();
 
-        System.out.println("\nDatos de los alumnos:");
-        for (Alumno alumno : alumnos) {
-            alumno.mostrarDatos();
-        }
-
-        scanner.close();
+        // Métodos de la clase hija
+        miAutobús.subirPasajeros(5);
+        miAutobús.bajarPasajeros(3);
+        miAutobús.bajarPasajeros(15); // Intento de bajar más pasajeros de los que hay
     }
 }
